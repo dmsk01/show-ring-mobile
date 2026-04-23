@@ -2,7 +2,7 @@
 
 Live checklist. Update in the same commit as the code change. See `docs/plans/2026-04-22-react-native-port-plan.md` for the full plan.
 
-**Current stage:** Stage 1 — MVP, substage **1.2 Theme & MUI adapter**.
+**Current stage:** Stage 1 — MVP, substage **1.3 Base infrastructure**.
 
 Legend: `[ ]` todo · `[~]` in progress · `[x]` done · `[-]` skipped/YAGNI
 
@@ -73,15 +73,15 @@ Adapter components (src/components/mui/):
 - [x] src/components/mui/README.md documenting supported props
 
 ### 1.3 Base infrastructure
-- [ ] src/lib/axios.ts
-- [ ] src/lib/swr.ts (AppState-driven revalidation)
-- [ ] src/lib/storage.ts (MMKV)
-- [ ] src/lib/secure-storage.ts (expo-secure-store)
-- [ ] src/utils/* (copied, DOM-refs removed)
-- [ ] src/types/* (copied)
-- [ ] src/global-config.ts (adapted ENV source)
-- [ ] src/routes/paths.ts (copied)
-- [ ] src/routes/hooks/ (expo-router wrappers)
+- [x] src/lib/axios.ts (auth header + 401 refresh with queue + fetcher + endpoints)
+- [x] src/lib/swr.ts (defaults + `useAppStateRevalidation` replacing window.focus)
+- [x] src/lib/storage.ts (MMKV — done in 1.2)
+- [x] src/lib/secure-storage.ts (expo-secure-store wrapper + in-process token cache)
+- [-] src/utils/* — deferred; `format-number` depends on i18n locales (1.4). Port per-consumer during sections.
+- [-] src/types/* — deferred; ported per-consumer when sections land (no dead code policy).
+- [x] src/global-config.ts (reads from `Constants.expoConfig.extra`)
+- [x] src/routes/paths.ts (mock demo paths dropped; product/user/invoice/post/order/job/tour helpers only)
+- [x] src/routes/hooks/ (expo-router wrappers — useRouter/usePathname/useSearchParams/useParams, Next-compatible API)
 
 ### 1.4 i18n
 - [ ] src/locales/ copied verbatim
