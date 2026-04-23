@@ -1,0 +1,81 @@
+{
+  "name": "show-ring-mobile",
+  "version": "0.1.0",
+  "private": true,
+  "main": "expo-router/entry",
+  "scripts": {
+    "start": "expo start",
+    "ios": "expo run:ios",
+    "android": "expo run:android",
+    "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\" \"app/**/*.{js,jsx,ts,tsx}\"",
+    "lint:fix": "eslint --fix \"src/**/*.{js,jsx,ts,tsx}\" \"app/**/*.{js,jsx,ts,tsx}\"",
+    "fm:check": "prettier --check \"src/**/*.{js,jsx,ts,tsx}\" \"app/**/*.{js,jsx,ts,tsx}\"",
+    "fm:fix": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\" \"app/**/*.{js,jsx,ts,tsx}\"",
+    "tsc:check": "tsc --noEmit",
+    "tsc:watch": "tsc --noEmit --watch",
+    "doctor": "expo-doctor",
+    "check:all": "expo-doctor && tsc --noEmit && eslint \"src/**/*.{ts,tsx}\" \"app/**/*.{ts,tsx}\" && prettier --check \"src/**/*.{ts,tsx}\" \"app/**/*.{ts,tsx}\""
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@expo/vector-icons": "15.1.1",
+    "@hookform/resolvers": "5.2.1",
+    "@shopify/flash-list": "2.0.2",
+    "axios": "^1.11.0",
+    "burnt": "0.13.0",
+    "dayjs": "^1.11.13",
+    "es-toolkit": "^1.39.8",
+    "expo": "55.0.17",
+    "expo-constants": "55.0.15",
+    "expo-font": "55.0.6",
+    "expo-linking": "55.0.14",
+    "expo-localization": "55.0.13",
+    "expo-router": "55.0.13",
+    "expo-secure-store": "55.0.13",
+    "expo-splash-screen": "55.0.19",
+    "expo-status-bar": "55.0.5",
+    "expo-system-ui": "55.0.16",
+    "i18next": "^25.3.2",
+    "i18next-resources-to-backend": "^1.2.1",
+    "react": "19.2.5",
+    "react-hook-form": "7.62.0",
+    "react-i18next": "^15.6.1",
+    "react-native": "0.83.6",
+    "react-native-gesture-handler": "2.30.0",
+    "react-native-mmkv": "4.3.1",
+    "react-native-paper": "5.15.1",
+    "react-native-reanimated": "4.2.1",
+    "react-native-safe-area-context": "5.6.2",
+    "react-native-screens": "4.23.0",
+    "react-native-svg": "15.15.3",
+    "react-native-worklets": "0.7.4",
+    "swr": "^2.3.4",
+    "zod": "4.0.15"
+  },
+  "expo": {
+    "install": {
+      "exclude": ["react"]
+    }
+  },
+  "devDependencies": {
+    "@babel/core": "^7.25.0",
+    "@eslint/js": "^9.32.0",
+    "@types/react": "~19.2.10",
+    "eslint": "^9.32.0",
+    "eslint-import-resolver-typescript": "^4.4.4",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-perfectionist": "^4.15.0",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-native": "^5.0.0",
+    "eslint-plugin-unused-imports": "^4.1.4",
+    "expo-doctor": "^1.18.19",
+    "globals": "^16.3.0",
+    "prettier": "^3.6.2",
+    "react-native-svg-transformer": "^1.5.0",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.39.0"
+  }
+}
