@@ -2,7 +2,7 @@
 
 Live checklist. Update in the same commit as the code change. See `docs/plans/2026-04-22-react-native-port-plan.md` for the full plan.
 
-**Current stage:** Stage 1 — MVP, substage **1.3 Base infrastructure**.
+**Current stage:** Stage 1 — MVP, substage **1.4 i18n**.
 
 Legend: `[ ]` todo · `[~]` in progress · `[x]` done · `[-]` skipped/YAGNI
 
@@ -84,10 +84,13 @@ Adapter components (src/components/mui/):
 - [x] src/routes/hooks/ (expo-router wrappers — useRouter/usePathname/useSearchParams/useParams, Next-compatible API)
 
 ### 1.4 i18n
-- [ ] src/locales/ copied verbatim
-- [ ] Replace language detector with expo-localization
-- [ ] MMKV persistence for language override
-- [ ] LocalizationProvider registered in app/_layout.tsx
+- [x] src/locales/ ported (JSON resources verbatim; langs reduced to `en` + `ru` per project scope — fr/vi/cn/ar dropped)
+- [x] Custom MMKV + expo-localization language detector (replaces `i18next-browser-languagedetector`)
+- [x] MMKV persistence for language override (`languageStorageKey = 'i18nextLng'`)
+- [x] `I18nProvider` + `LocalizationProvider` registered in `app/_layout.tsx`
+- [x] Static resource bundling via `i18next-resources-to-backend` (Metro can't resolve dynamic JSON imports)
+- [x] `useTranslate` hook: drop web-only `toast.promise` / `router.refresh` / `useSettingsContext`; keep `onChangeLang`, `onResetLang`, dayjs locale sync
+- [x] `formatNumberLocale` util copied (DOM-free)
 
 ### 1.5 Auth (JWT)
 - [ ] src/auth/context/ ported

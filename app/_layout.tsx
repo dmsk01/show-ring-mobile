@@ -6,6 +6,7 @@ import { ThemeProvider } from 'src/theme';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, type JSX } from 'react';
 import { isHydratedAtom } from 'src/store/auth';
+import { I18nProvider, LocalizationProvider } from 'src/locales';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { secureStorage, SECURE_KEYS, setCachedToken } from 'src/lib/secure-storage';
@@ -34,10 +35,14 @@ export default function RootLayout(): JSX.Element {
   return (
     <SafeAreaProvider>
       <GestureHandlerRootView style={styles.root}>
-        <ThemeProvider>
-          <StatusBar style="auto" />
-          <Slot />
-        </ThemeProvider>
+        <I18nProvider>
+          <ThemeProvider>
+            <LocalizationProvider>
+              <StatusBar style="auto" />
+              <Slot />
+            </LocalizationProvider>
+          </ThemeProvider>
+        </I18nProvider>
       </GestureHandlerRootView>
     </SafeAreaProvider>
   );
