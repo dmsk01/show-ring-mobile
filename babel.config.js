@@ -3,8 +3,11 @@ module.exports = function (api) {
   return {
     presets: [['babel-preset-expo', { jsxImportSource: 'react' }]],
     plugins: [
-      // react-native-reanimated/plugin MUST be listed last
-      'react-native-reanimated/plugin',
+      // react-native-worklets/plugin MUST be listed last.
+      // In Reanimated v4+ the babel plugin was extracted into the
+      // react-native-worklets package; using the old 'react-native-reanimated/plugin'
+      // path produces broken worklet transforms and bundle-level syntax errors.
+      'react-native-worklets/plugin',
     ],
   };
 };
