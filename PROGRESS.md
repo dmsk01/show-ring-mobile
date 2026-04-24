@@ -2,7 +2,7 @@
 
 Live checklist. Update in the same commit as the code change. See `docs/plans/2026-04-22-react-native-port-plan.md` for the full plan.
 
-**Current stage:** Stage 1 — MVP, substage **1.5 Auth (JWT)** — Phase A done; Phase B (guards) + Phase C (screens) pending.
+**Current stage:** Stage 1 — MVP, substage **1.5 Auth (JWT)** — Phases A+B+C done (sign-in only per MVP scope). Next: §1.6 Layouts & navigation.
 
 Legend: `[ ]` todo · `[~]` in progress · `[x]` done · `[-]` skipped/YAGNI
 
@@ -113,13 +113,15 @@ Adapter components (src/components/mui/):
 - [x] `app/_layout.tsx` — bootstrap validates access token via `isValidToken`; calls `clearSession` if invalid/missing; flips `isHydratedAtom`
 - [x] Removed: `src/services/auth.service.ts`, `src/store/auth.ts`, `src/hooks/use-auth.ts`, `src/types/auth.ts` (and empty parent dirs)
 
-**Phase B — guards (pending)**
-- [x] `app/(app)/_layout.tsx` — uses `useAuthContext`; `<Redirect href="/login">` when unauthenticated
-- [ ] `app/(auth)/_layout.tsx` — reverse guard: `<Redirect href="/">` when authenticated
-- [ ] Splash placeholder while `loading` (currently returns `null`)
+**Phase B — guards — done**
+- [x] `app/(app)/_layout.tsx` — `useAuthContext`; `<Redirect href="/sign-in">` when unauthenticated; Splash while loading
+- [x] `app/(auth)/_layout.tsx` — reverse guard: `<Redirect href="/">` when authenticated; Splash while loading
+- [x] `src/components/custom/splash-screen.tsx` — MVP Splash placeholder (centered `CircularProgress`). Branded Splash tracked under §1.7.
 
-**Phase C — screens (end of stage, MVP minimum = sign-in only)**
-- [~] `app/(auth)/login.tsx` — temporary placeholder wired to `useAuthActions`; raw TextInput UI. TODO(stage-1.5-polish): rename to `sign-in.tsx`, rebuild with `react-hook-form` + `zodResolver` + MUI adapter
+**Phase C — screens — done (MVP minimum = sign-in only)**
+- [x] `src/components/hook-form/form-provider.tsx` — `Form` wrapper mirroring web's API (no `<form>` in RN; submission wired via button `onPress`)
+- [x] `src/components/hook-form/rhf-text-field.tsx` — `Controller`-backed wrapper over adapter `TextField`; number coercion inline (drops web-only `minimal-shared/utils` transform helpers)
+- [x] `app/(auth)/sign-in.tsx` — RHF + zodResolver + MUI adapter (`Stack`, `Typography`, `RHFTextField`, `Button`); password visibility toggle via Paper `TextInput.Icon`; Burnt toast on failure
 - [-] `app/(auth)/sign-up.tsx` — deferred (user scope call)
 - [-] `app/(auth)/forgot-password.tsx` — deferred (user scope call)
 - [-] Deep-linking config in app.json — deferred with forgot-password
