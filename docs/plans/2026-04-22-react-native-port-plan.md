@@ -266,10 +266,35 @@ Box, Stack, Typography, Button, IconButton, TextField, Card (+CardContent, CardH
 
 Prereq: Stage 1 done.
 
-- [ ] **DataGrid (full)** — port of `@mui/x-data-grid` API: column resize, reorder, pinning, UI filters, selection, tree rows, pagination bar. Base: FlashList + custom column engine. Est. 2 weeks.
-- [ ] **TreeView** — recursive FlashList with animated expand/collapse (Reanimated). Est. 2 days.
-- [ ] Additional MUI components as demanded: Rating, Stepper, SpeedDial, Pagination, BottomNavigation styled variant.
-- [ ] Icon coverage extension: wrap `react-native-iconify` or add SVG packs via `react-native-svg-transformer`.
+**Scope reductions agreed 2026-04-24** (see memory `project_stage2_scope.md`):
+- DataGrid scope trimmed — no pinning / reorder / column resize / UI filters / tree rows. Basic display + sort + pagination + selection only. Small screens make the heavier features antipatterns.
+- TreeView deferred entirely (YAGNI) until file-manager lands in Stage 5.
+- Stepper + SpeedDial deferred to on-demand (first consumer pulls them in).
+- `es-toolkit` stays deferred; wait for first concrete consumer, then narrow submodule imports.
+
+### 5.1 DataGrid enhancements (basic display only)
+Extend existing `src/components/mui/DataGrid.tsx` (Stage 1 simplified grid already covers columns / rows / sort / pagination).
+- [ ] Row selection: `checkboxSelection`, `rowSelectionModel`, `onRowSelectionModelChange` — MUI-compatible API.
+- [ ] Empty state slot (`noRowsLabel` or `renderNoRows`) — needed once real data lands.
+- [ ] Update `src/components/mui/README.md` support matrix.
+
+### 5.2 Upfront adapters
+- [ ] `Rating.tsx` — MUI `Rating` API: `value`, `max`, `precision` (0.5 / 1), `readOnly`, `size`, `onChange`. Use `@expo/vector-icons` star glyphs; tap-zones divided by precision.
+- [ ] `Pagination.tsx` — MUI `Pagination` API: `count`, `page`, `onChange`, `siblingCount`, `boundaryCount`, `shape`, `size`, `showFirstButton`, `showLastButton`. Render as horizontal row of `IconButton` / number chips (no ellipsis gymnastics beyond siblingCount+boundaryCount).
+- [ ] `BottomNavigation.tsx` + `BottomNavigationAction.tsx` — MUI `BottomNavigation` styled variant wrapping Paper `BottomNavigation` or custom `View` row. Consumers choose between this and the Expo Router `Tabs` layout.
+- [ ] Register exports in `src/components/mui/index.ts`; add docs entries to `README.md`.
+
+### 5.3 Icons — `react-native-iconify`
+- [ ] Install `react-native-iconify` (+ required Babel plugin; verify New-Arch compatibility before install).
+- [ ] Configure Babel plugin; add icon set JSON(s) matching the ones web uses (solar, eva, mingcute, etc. — narrow to what we actually reference).
+- [ ] Create `src/components/custom/iconify.tsx` thin wrapper exposing `<Iconify icon="solar:user-bold" size={20} color={...} />` — same prop shape the web sections use so ports stay mechanical.
+- [ ] Document in `README.md`.
+
+### 5.4 Deferred until first consumer
+- [ ] TreeView — blocked by file-manager (Stage 5).
+- [ ] Stepper — blocked by multi-step forms (checkout / onboarding).
+- [ ] SpeedDial — blocked by first section that actually benefits from it.
+- [ ] Additional DataGrid features (filters toolbar, column resize, pinning, reorder, tree rows) — reopen only on explicit request.
 
 ## 6. Stage 3 — Simple Sections
 

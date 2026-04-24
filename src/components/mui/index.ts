@@ -71,8 +71,17 @@ export {
   DataGrid,
   type DataGridColumn,
   type DataGridProps,
+  type DataGridRowId,
   type DataGridSortModel,
   type SortDirection,
 } from './DataGrid';
+export { Rating, type RatingProps } from './Rating';
+export { Pagination, type PaginationProps, type PaginationShape } from './Pagination';
+export {
+  BottomNavigation,
+  BottomNavigationAction,
+  type BottomNavigationProps,
+  type BottomNavigationActionProps,
+} from './BottomNavigation';
 
 export type { SxProp, AdapterColor, AdapterSize, IconSource } from './types';

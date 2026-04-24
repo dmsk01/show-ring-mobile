@@ -83,7 +83,10 @@ Legend: ✅ supported · ⚠️ partial · ❌ not supported (YAGNI or platform 
 | ------------ | ------------------------------------------------------- | ----------------------------------------------------------------- |
 | `Avatar`     | src, alt, children, variant (`circular`/`rounded`/`square`), size | Image / Text / Icon route.                               |
 | `Chip`       | label, color, onDelete, onClick, icon, variant, size, disabled | Paper `Chip`.                                                |
-| `DataGrid`   | columns (field, headerName, width, flex, sortable, renderCell), rows, loading, sortModel, onSortChange, getRowId, page, pageSize, onPageChange | Simplified. **No** column resizing, filters, pinning, row selection, virtualization, editing. For very large datasets, use `FlashList` directly. |
+| `DataGrid`   | columns (field, headerName, width, flex, sortable, renderCell), rows, loading, sortModel, onSortChange, getRowId, page, pageSize, onPageChange, `checkboxSelection`, `rowSelectionModel`, `onRowSelectionModelChange`, `renderNoRows`, `noRowsLabel` | Basic display (Stage 2 scope). Selection header toggles the current page only; tri-state indicator for partial selection. **No** column resize / reorder / pinning, UI filter toolbar, tree rows, inline editing, virtualization. For > ~200 rows use `FlashList` directly. |
+| `Rating`     | value, onChange, max, precision (`0.5` / `1`), readOnly, disabled, size, color | MaterialIcons star / star_border / star_half. Tap clears when the new value equals the current (MUI parity). Custom `icon`/`emptyIcon` ❌ (YAGNI). |
+| `Pagination` | count, page, onChange, siblingCount, boundaryCount, size, shape (`circular`/`rounded`), color, showFirstButton, showLastButton, hidePrevButton, hideNextButton, disabled | Replicates MUI `usePagination` algorithm. `variant='outlined'/'text'`, `renderItem`, RTL ❌ (filled-active / text-inactive only). |
+| `BottomNavigation` / `BottomNavigationAction` | value, onChange, showLabels, color, children; action: value, label, icon, disabled | Styled variant (use alongside, not instead of, the expo-router `Tabs` shell). Row of `TouchableRipple`s; `Action` is a marker component like `Tab`. |
 
 ---
 

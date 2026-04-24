@@ -2,7 +2,7 @@
 
 Live checklist. Update in the same commit as the code change. See `docs/plans/2026-04-22-react-native-port-plan.md` for the full plan.
 
-**Current stage:** Stage 1 — MVP, substage **1.7 End-to-end screen** — code done. Pending: iOS simulator + Android emulator runs (user).
+**Current stage:** Stage 2 — Heavy UI (started 2026-04-24). Android emulator run passed in §1.7. iOS simulator + EAS builds deferred (user will tackle locally later; see Stage 1.8 notes).
 
 Legend: `[ ]` todo · `[~]` in progress · `[x]` done · `[-]` skipped/YAGNI
 
@@ -155,20 +155,45 @@ Adapter components (src/components/mui/):
 - [x] `app/(app)/settings.tsx` — theme mode `RadioGroup` (light / dark / system) + sign-out button; Burnt toast on signOut failure; redirect handled by `(app)/_layout.tsx` guard when `authenticated` flips
 - [-] Language switcher — dropped (device locale via expo-localization)
 - [-] Font size selector — deferred (stage-2)
-- [ ] iOS simulator run
-- [ ] Android emulator run
+- [ ] iOS simulator run — deferred (no mac available; revisit before §1.8 validation)
+- [x] Android emulator run — passed 2026-04-24 after babel-worklets + es-toolkit removal fixes
 
 ### 1.8 MVP validation
-- [ ] yarn check:all green
-- [ ] eas build --profile development --platform ios
-- [ ] eas build --profile development --platform android
-- [ ] TestFlight internal build
+- [ ] yarn check:all green (pending local run before Stage 2 closes)
+- [-] eas build --profile development --platform ios — deferred (local-only for now, user decision 2026-04-24)
+- [-] eas build --profile development --platform android — deferred (local-only for now)
+- [-] TestFlight internal build — deferred (blocked on EAS)
 - [x] src/components/mui/README.md finalized (28/28 adapter components documented with support matrix + deviations)
 
 ---
 
-## Stage 2 — Heavy UI  (not started)
-See plan §5.
+## Stage 2 — Heavy UI  (in progress)
+See plan §5. Scope reductions: memory `project_stage2_scope.md`.
+
+### 2.1 DataGrid enhancements (basic display only)
+- [x] Row selection API: `checkboxSelection`, `rowSelectionModel`, `onRowSelectionModelChange` (header toggle = current page; tri-state partial indicator)
+- [x] Empty state slot (`renderNoRows` / `noRowsLabel`, default `"No rows"`)
+- [x] `DataGridRowId` exported; README support matrix updated
+
+### 2.2 Upfront adapters
+- [x] `Rating.tsx` — MUI `Rating` shape (`value`, `max`, `precision` (0.5/1), `readOnly`, `disabled`, `size`, `color`, `onChange`) via MaterialIcons glyphs
+- [x] `Pagination.tsx` — MUI `Pagination` shape (`count`, `page`, `onChange`, `siblingCount`, `boundaryCount`, `size`, `shape`, `color`, `showFirstButton`, `showLastButton`, `hidePrevButton`, `hideNextButton`, `disabled`) with MUI `usePagination` algorithm
+- [x] `BottomNavigation.tsx` + `BottomNavigationAction.tsx` — marker-based API mirroring MUI (parallels `Tabs`/`Tab` pattern already used); active tint via theme palette
+- [x] Re-exported in `src/components/mui/index.ts`; documented in `README.md`
+
+### 2.3 Icons — react-native-iconify
+- [ ] Verify New-Arch compatibility before install
+- [ ] Install `react-native-iconify` + Babel plugin
+- [ ] Pick initial icon sets (narrow to what web actually references: solar / eva / mingcute / …)
+- [ ] `src/components/custom/iconify.tsx` wrapper with web-parity prop shape
+- [ ] Document in `README.md`
+
+### 2.4 Deferred (YAGNI — do not build until a consumer requests)
+- [-] TreeView — blocked by file-manager (Stage 5)
+- [-] Stepper — blocked by multi-step forms
+- [-] SpeedDial — blocked by first benefiting section
+- [-] DataGrid: pinning / reorder / column resize / filters toolbar / tree rows
+- [-] `es-toolkit` return — first consumer pulls it in (narrow submodule imports)
 
 ## Stage 3 — Simple Sections  (not started)
 See plan §6.
