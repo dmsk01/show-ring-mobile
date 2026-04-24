@@ -301,30 +301,33 @@ Extend existing `src/components/mui/DataGrid.tsx` (Stage 1 simplified grid alrea
 
 Sections where logic already works (forms + SWR fetchers); only UI rebuild needed.
 
-- [ ] `overview/` — dashboards, KPI cards.
-- [ ] `account/` — profile forms, password change, notifications.
-- [ ] `about/`, `contact/`, `faqs/`, `pricing/`, `permission/`.
-- [ ] `error/`, `maintenance/`, `coming-soon/`.
-- [ ] `blank/` — template screen.
+**Pivot from original priority (2026-04-24):** original order `overview → account → rest` blocks on Stage 4 external libs. Under the Stage 4 scope reduction (see §7 + memory `project_stage4_scope.md` — charts/kanban/map dropped, editor deferred), the blocked sections are re-classified:
 
-Priority: `overview` → `account` → rest.
+- **Block A — status views (no external deps):** `error/*` (403, 404, 500), `maintenance`, `coming-soon`, `blank`, `permission`. All single-view, substituted illustration assets with Iconify glyphs. Start here.
+- **Block B — content landings:** `about`, `pricing`, `faqs`. Vertical-scroll marketing pages, only adapter components + no external libs. No `contact` (its map block is out; see §7 drops).
+- **Block C — account settings:** `account/*` (general / change-password / notifications / socials / billing-*). RHF-heavy; merits its own commit.
+- **Dropped:** `overview/*` (charts), `contact` (map), `home` (web landing — no mobile analog).
+
+Priority within Stage 3: Block A → B → C.
 
 ## 7. Stage 4 — Sections with External Libs
 
-| Web section | Web pkg | Mobile replacement | Version | Complexity |
-|---|---|---|---|---|
-| `chart/` | apexcharts | `react-native-gifted-charts` 1.4.x OR `victory-native` 41.x | — | medium |
-| `carousel` | embla-carousel | `react-native-reanimated-carousel` 4.x | — | low |
-| `editor/` | @tiptap | `@10play/tentap-editor` 0.7.x (RN Tiptap port) | — | medium |
-| `map/` | maplibre-gl + react-map-gl | `@rnmapbox/maps` 10.x OR `react-native-maps` 1.x | — | high (native) |
-| `calendar/` | @fullcalendar | `react-native-calendars` 1.x | — | medium |
-| `lightbox/` | yet-another-react-lightbox | `react-native-image-viewing` 0.2.x | — | low |
-| `file-manager/` upload | react-dropzone | `expo-document-picker` + `expo-image-picker` | — | low |
-| `markdown/` | react-markdown | `react-native-markdown-display` 7.x | — | low |
-| `kanban/` DnD | @atlaskit/pragmatic-drag-and-drop | `react-native-draggable-flatlist` 4.x + Reanimated | — | high |
-| `organizational-chart` | react-organizational-chart | custom on Reanimated + react-native-svg | — | medium |
-| `phone-input` | react-phone-number-input | `react-native-phone-number-input` 2.x | — | low |
-| `number-input` OTP | mui-one-time-password-input | `react-native-otp-entry` 1.x | — | low |
+**Scope reduction 2026-04-24** (user decision, memory `project_stage4_scope.md`): charts, kanban DnD and map dropped entirely for mobile — no analog will be implemented. Editor deferred indefinitely ("maybe later"); revisit only when a concrete consumer appears.
+
+| Web section | Status | Web pkg | Mobile replacement |
+|---|---|---|---|
+| `chart/` | **DROPPED** | apexcharts | — |
+| `kanban/` DnD | **DROPPED** | @atlaskit/pragmatic-drag-and-drop | — |
+| `map/` | **DROPPED** | maplibre-gl + react-map-gl | — |
+| `editor/` | **DEFERRED** | @tiptap | `@10play/tentap-editor` (if/when needed) |
+| `carousel` | in scope | embla-carousel | `react-native-reanimated-carousel` 4.x |
+| `calendar/` | in scope | @fullcalendar | `react-native-calendars` 1.x |
+| `lightbox/` | in scope | yet-another-react-lightbox | `react-native-image-viewing` 0.2.x |
+| `file-manager/` upload | in scope | react-dropzone | `expo-document-picker` + `expo-image-picker` |
+| `markdown/` | in scope | react-markdown | `react-native-markdown-display` 7.x |
+| `organizational-chart` | in scope | react-organizational-chart | custom on Reanimated + react-native-svg |
+| `phone-input` | in scope | react-phone-number-input | `react-native-phone-number-input` 2.x |
+| `number-input` OTP | in scope | mui-one-time-password-input | `react-native-otp-entry` 1.x |
 
 ## 8. Stage 5 — Business Sections
 

@@ -197,11 +197,44 @@ See plan §5. Scope reductions: memory `project_stage2_scope.md`.
 - [-] DataGrid: pinning / reorder / column resize / filters toolbar / tree rows
 - [-] `es-toolkit` return — first consumer pulls it in (narrow submodule imports)
 
-## Stage 3 — Simple Sections  (not started)
+## Stage 3 — Simple Sections  (in progress)
 See plan §6.
 
-## Stage 4 — Sections with External Libs  (not started)
-See plan §7.
+**Divergence from plan §6 priority (`overview → account → rest`):** `overview/*` (7 chart-heavy dashboards) and `contact` (map) are blocked by external libs classified Stage 4. Under the Stage 4 scope reduction (memory `project_stage4_scope.md` — charts/kanban/map dropped), `overview/*` and `contact` are dropped entirely for mobile. Stage 3 is reordered into blocks of escalating complexity:
+
+### 3.A Status views (no external deps)
+- [x] `src/sections/error/not-found-view.tsx` + `app/+not-found.tsx`
+- [x] `src/sections/error/403-view.tsx` + `app/error/403.tsx`
+- [x] `src/sections/error/500-view.tsx` + `app/error/500.tsx`
+- [x] `src/sections/maintenance/view.tsx` + `app/maintenance.tsx`
+- [x] `src/sections/coming-soon/view.tsx` + `app/coming-soon.tsx` (countdown inlined; simplified: shadowed TextField + social IconButtons dropped — YAGNI)
+- [x] `src/sections/blank/view.tsx` + `app/blank.tsx`
+- [x] `src/sections/permission/view.tsx` + `app/permission.tsx` (role toggle via two Buttons; `RoleBasedGuard` inlined; no `CustomBreadcrumbs`)
+
+Routing: `error/*`, `maintenance`, `coming-soon`, `blank`, `permission` sit at the top level (siblings of the `(app)` / `(auth)` route groups) — auth-free so the screens are reachable from anywhere (including as redirect targets for future 403/500 interceptors). They render through expo-router's default stack.
+
+Illustrations: web uses complex SVG illustration components from `src/assets/illustrations/*`. Mobile substitutes with a single Iconify glyph sized ~160 px — same visual role, zero new assets.
+
+### 3.B Content landings (vertical-scroll marketing pages)
+- [ ] `about/` — hero / what / vision / team / testimonials sections
+- [ ] `pricing/` — card + view
+- [ ] `faqs/` — hero / category / list / form (no map)
+
+### 3.C Account settings (RHF-heavy)
+- [ ] `account/*` — general / change-password / notifications / socials / billing-* (10 files). Large port; split into its own commit.
+
+### 3.D Dropped / deferred
+- [-] `overview/*` — dropped with Stage 4 charts
+- [-] `contact` — dropped with Stage 4 map
+- [-] `home` — web landing page, not needed on mobile
+
+## Stage 4 — Sections with External Libs  (partially dropped)
+See plan §7. Scope reduction (memory `project_stage4_scope.md`):
+- [-] `chart/` (apexcharts) — dropped
+- [-] `kanban/` (DnD) — dropped
+- [-] `map/` (maplibre) — dropped
+- [ ] `editor/` (Tiptap) — deferred ("maybe later", no current consumer)
+- [ ] `carousel`, `calendar`, `lightbox`, `file-manager` upload, `markdown`, `phone-input`, `number-input` OTP, `organizational-chart` — still in scope, revisit when a Stage 5 section demands it
 
 ## Stage 5 — Business Sections  (not started)
 See plan §8.
