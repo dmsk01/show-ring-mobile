@@ -284,11 +284,12 @@ Extend existing `src/components/mui/DataGrid.tsx` (Stage 1 simplified grid alrea
 - [ ] `BottomNavigation.tsx` + `BottomNavigationAction.tsx` — MUI `BottomNavigation` styled variant wrapping Paper `BottomNavigation` or custom `View` row. Consumers choose between this and the Expo Router `Tabs` layout.
 - [ ] Register exports in `src/components/mui/index.ts`; add docs entries to `README.md`.
 
-### 5.3 Icons — `react-native-iconify`
-- [ ] Install `react-native-iconify` (+ required Babel plugin; verify New-Arch compatibility before install).
-- [ ] Configure Babel plugin; add icon set JSON(s) matching the ones web uses (solar, eva, mingcute, etc. — narrow to what we actually reference).
-- [ ] Create `src/components/custom/iconify.tsx` thin wrapper exposing `<Iconify icon="solar:user-bold" size={20} color={...} />` — same prop shape the web sections use so ports stay mechanical.
-- [ ] Document in `README.md`.
+### 5.3 Icons — custom `Iconify` over `react-native-svg`
+**Pivot from original plan (2026-04-24):** dropped `react-native-iconify` (last release 2023, unverified on SDK 55 / RN 0.83 / New Arch) in favor of a thin wrapper over the already-installed `react-native-svg` 15.x.
+- [x] Copy `src/components/iconify/icon-sets.ts` verbatim from web (raw SVG `body` strings, `currentColor` placeholders, prefixes: solar, eva, mingcute, carbon, ic, payments, socials, custom).
+- [x] Create `src/components/iconify/iconify.tsx` — `SvgXml`-backed, pre-substitutes `currentColor` with the resolved tint (SvgXml does not cascade `color`), exposes `<Iconify icon="solar:pen-bold" width={20} color={...} />` matching web.
+- [x] Barrel `src/components/iconify/index.ts` with `Iconify`, `IconifyName`, `IconifyProps`.
+- [ ] Cross-link from `src/components/mui/README.md` (icon-adornment row).
 
 ### 5.4 Deferred until first consumer
 - [ ] TreeView — blocked by file-manager (Stage 5).

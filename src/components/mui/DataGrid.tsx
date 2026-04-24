@@ -111,7 +111,10 @@ export function DataGrid<R extends Record<string, unknown>>({
   );
 
   const pageIds = useMemo(() => pagedRows.map(getRowId), [pagedRows, getRowId]);
-  const pageSelectedCount = pageIds.reduce((acc, id) => acc + (selectedSet.has(id) ? 1 : 0), 0);
+  const pageSelectedCount = pageIds.reduce<number>(
+    (acc, id) => acc + (selectedSet.has(id) ? 1 : 0),
+    0
+  );
   const allPageSelected = pageIds.length > 0 && pageSelectedCount === pageIds.length;
   const somePageSelected = pageSelectedCount > 0 && !allPageSelected;
 

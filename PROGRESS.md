@@ -181,12 +181,14 @@ See plan §5. Scope reductions: memory `project_stage2_scope.md`.
 - [x] `BottomNavigation.tsx` + `BottomNavigationAction.tsx` — marker-based API mirroring MUI (parallels `Tabs`/`Tab` pattern already used); active tint via theme palette
 - [x] Re-exported in `src/components/mui/index.ts`; documented in `README.md`
 
-### 2.3 Icons — react-native-iconify
-- [ ] Verify New-Arch compatibility before install
-- [ ] Install `react-native-iconify` + Babel plugin
-- [ ] Pick initial icon sets (narrow to what web actually references: solar / eva / mingcute / …)
-- [ ] `src/components/custom/iconify.tsx` wrapper with web-parity prop shape
-- [ ] Document in `README.md`
+### 2.3 Icons — custom `Iconify` over `react-native-svg`
+
+**Divergence from plan §5.3:** abandoned `react-native-iconify` (last npm release 2023, unverified on SDK 55 / RN 0.83 New Arch) in favor of a thin wrapper over the already-installed `react-native-svg` 15.x (Fabric-compatible). Web's `icon-sets.ts` is pre-curated (solar / eva / mingcute / carbon / ic / payments / socials / custom) so we get offline parity with zero new dependencies and a shared `IconifyName` type.
+
+- [x] `src/components/iconify/icon-sets.ts` — copied verbatim from web (702 lines; raw SVG `body` strings with `currentColor` placeholders)
+- [x] `src/components/iconify/iconify.tsx` — `<Iconify icon="solar:pen-bold" width={20} color={...} />` via `SvgXml`; `currentColor` pre-substituted before render; dev-only warning for unregistered icons
+- [x] `src/components/iconify/index.ts` barrel (`Iconify`, `IconifyName`, `IconifyProps`)
+- [x] Cross-linked from `src/components/mui/README.md` (icon-adornment row)
 
 ### 2.4 Deferred (YAGNI — do not build until a consumer requests)
 - [-] TreeView — blocked by file-manager (Stage 5)

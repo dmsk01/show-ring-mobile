@@ -135,11 +135,7 @@ export function BottomNavigation({
                 <Icon source={item.icon} size={ICON_SIZE} color={tint} />
               ) : null}
               {labelVisible && item.label != null ? (
-                <Typography
-                  variant="caption"
-                  style={[styles.label, { color: tint }]}
-                  numberOfLines={1}
-                >
+                <Typography variant="caption" style={[styles.label, { color: tint }]} noWrap>
                   {item.label}
                 </Typography>
               ) : null}

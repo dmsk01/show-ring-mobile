@@ -16,7 +16,7 @@ Drop-in replacements for `@mui/material` components, implemented on top of `reac
 | `sx`             | **partial**           | Flat RN style object (or array). **No media queries, no pseudo-classes.** |
 | `component="…"`  | **no**                | RN has no polymorphic rendering.                                           |
 | `onClick`        | mapped                | Aliased internally to RN `onPress`. No SyntheticEvent — `onChange` receives the raw value. |
-| `icon` / adornments | `IconSource`       | Paper icon name (string) / component / render fn. Not a `ReactNode`. See `types.ts`. |
+| `icon` / adornments | `IconSource`       | Paper icon name (string) / component / render fn. Not a `ReactNode`. See `types.ts`. For web-parity Iconify glyphs (`solar:*`, `eva:*`, …), import `Iconify` from `src/components/iconify` and pass it via a render fn. |
 | `style`          | yes                   | RN `StyleProp<ViewStyle>` (or TextStyle / ImageStyle per component).       |
 | `testID`         | yes                   | Prefer `testID` over MUI's `data-testid`.                                  |
 | Theme tokens     | **required**          | Use theme tokens (palette, spacing, shadows). **Never hardcode hex / px.** |
