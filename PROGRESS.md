@@ -2,7 +2,7 @@
 
 Live checklist. Update in the same commit as the code change. See `docs/plans/2026-04-22-react-native-port-plan.md` for the full plan.
 
-**Current stage:** Stage 1 — MVP, substage **1.6 Layouts & navigation** done. Next: §1.7 End-to-end screen (fill Overview + Settings content, sim/emulator runs).
+**Current stage:** Stage 1 — MVP, substage **1.7 End-to-end screen** — code done. Pending: iOS simulator + Android emulator runs (user).
 
 Legend: `[ ]` todo · `[~]` in progress · `[x]` done · `[-]` skipped/YAGNI
 
@@ -141,8 +141,15 @@ Adapter components (src/components/mui/):
 - [-] `src/layouts/AuthLayout.tsx` — deferred, see divergence above
 
 ### 1.7 End-to-end screen
-- [ ] app/(dashboard)/index.tsx (Overview)
-- [ ] app/(dashboard)/settings.tsx (theme, language, logout)
+
+**Divergence from plan §1.7** (mobile scope reduction — see CLAUDE.md memories):
+- Settings trimmed to theme mode + sign out. Language switcher dropped — device locale via `expo-localization` is authoritative; ru/en follow the OS. Font size / layout toggles deferred (`TODO(stage-2)`).
+- Sign out placed in Settings (no dedicated Profile tab on MVP — one action doesn't warrant a whole tab).
+
+- [x] `app/(app)/index.tsx` — Overview welcome; greets by `user.displayName ?? user.email` via `useAuthContext()`
+- [x] `app/(app)/settings.tsx` — theme mode `RadioGroup` (light / dark / system) + sign-out button; Burnt toast on signOut failure; redirect handled by `(app)/_layout.tsx` guard when `authenticated` flips
+- [-] Language switcher — dropped (device locale via expo-localization)
+- [-] Font size selector — deferred (stage-2)
 - [ ] iOS simulator run
 - [ ] Android emulator run
 
