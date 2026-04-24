@@ -158,7 +158,7 @@ Adapter components (src/components/mui/):
 - [ ] eas build --profile development --platform ios
 - [ ] eas build --profile development --platform android
 - [ ] TestFlight internal build
-- [ ] src/components/mui/README.md finalized
+- [x] src/components/mui/README.md finalized (28/28 adapter components documented with support matrix + deviations)
 
 ---
 

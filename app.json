@@ -3,6 +3,9 @@
     "name": "show-ring-mobile",
     "slug": "show-ring-mobile",
     "version": "0.1.0",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
     "orientation": "portrait",
     "scheme": "showring",
     "userInterfaceStyle": "automatic",
@@ -14,14 +17,16 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.showring.mobile"
+      "bundleIdentifier": "com.showring.mobile",
+      "buildNumber": "1"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.showring.mobile"
+      "package": "com.showring.mobile",
+      "versionCode": 1
     },
     "plugins": [
       "expo-router",
