@@ -2,7 +2,7 @@
 
 Live checklist. Update in the same commit as the code change. See `docs/plans/2026-04-22-react-native-port-plan.md` for the full plan.
 
-**Current stage:** Stage 1 — MVP, substage **1.5 Auth (JWT)** — Phases A+B+C done (sign-in only per MVP scope). Next: §1.6 Layouts & navigation.
+**Current stage:** Stage 1 — MVP, substage **1.6 Layouts & navigation** done. Next: §1.7 End-to-end screen (fill Overview + Settings content, sim/emulator runs).
 
 Legend: `[ ]` todo · `[~]` in progress · `[x]` done · `[-]` skipped/YAGNI
 
@@ -127,11 +127,18 @@ Adapter components (src/components/mui/):
 - [-] Deep-linking config in app.json — deferred with forgot-password
 
 ### 1.6 Layouts & navigation
-- [ ] app/_layout.tsx (providers stack)
-- [ ] app/(auth)/_layout.tsx
-- [ ] app/(dashboard)/_layout.tsx (Tabs)
-- [ ] src/layouts/DashboardLayout.tsx
-- [ ] src/layouts/AuthLayout.tsx
+
+**Divergence from plan §1.6:**
+- Route group stays `(app)` (not `(dashboard)` as plan lists) — already established in §1.5 Phase B and in CLAUDE.md §"Auth — divergence from web"; group name is invisible in URLs, renaming would be pure churn.
+- `src/layouts/{DashboardLayout,AuthLayout}.tsx` wrappers not created — in expo-router the `app/*/_layout.tsx` file IS the layout. Separate wrappers only pay off once we add chrome beyond Tabs/Stack (drawer, FAB, shared AppBar). Revisit in Stage 2+ if needed.
+
+- [x] `app/_layout.tsx` — providers stack (done in §1.1 + §1.5 Phase A; no changes in §1.6)
+- [x] `app/(auth)/_layout.tsx` — reverse guard (done in §1.5 Phase B)
+- [x] `app/(app)/_layout.tsx` — Tabs shell with Overview + Settings tabs; MaterialIcons for tab icons; colors/chrome wired via `useTheme()`; auth guard preserved
+- [x] `app/(app)/index.tsx` — Overview placeholder (real dashboard content lands in §1.7)
+- [x] `app/(app)/settings.tsx` — Settings placeholder stub (theme / language / logout wired in §1.7)
+- [-] `src/layouts/DashboardLayout.tsx` — deferred, see divergence above
+- [-] `src/layouts/AuthLayout.tsx` — deferred, see divergence above
 
 ### 1.7 End-to-end screen
 - [ ] app/(dashboard)/index.tsx (Overview)

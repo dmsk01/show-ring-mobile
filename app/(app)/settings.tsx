@@ -5,23 +5,22 @@ import { Stack, Typography } from 'src/components/mui';
 import type { JSX } from 'react';
 
 /**
- * Overview tab — MVP placeholder.
+ * Settings tab — MVP placeholder.
  *
- * TODO(stage-1.7): replace with the real Overview dashboard (welcome widget,
- * recent activity, quick links). For now it just confirms the authenticated
- * tab shell routes here.
+ * TODO(stage-1.7): wire theme mode toggle, language switch, and logout
+ * action (via `useAuthActions().signOut`).
  */
-export default function OverviewScreen(): JSX.Element {
+export default function SettingsScreen(): JSX.Element {
   const { theme } = useTheme();
 
   return (
     <View style={[styles.root, { backgroundColor: theme.palette.background.default }]}>
       <Stack spacing={1} alignItems="center">
         <Typography variant="h4" color="primary">
-          Overview
+          Settings
         </Typography>
         <Typography variant="body2" color="inherit" align="center">
-          Welcome to show-ring-mobile
+          Theme, language and logout land here in §1.7
         </Typography>
       </Stack>
     </View>
