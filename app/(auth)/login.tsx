@@ -1,28 +1,45 @@
-import * as Burnt from 'burnt'; // ты его добавил в package.json
-import { useState } from 'react';
+import * as Burnt from 'burnt';
+import { useAuthActions } from 'src/auth';
+import { useState, type JSX } from 'react';
 import { Button, StyleSheet, TextInput, View } from 'react-native';
 
-import { useAuth } from '../../src/hooks/use-auth';
+/**
+ * Placeholder sign-in screen — wired to the new `useAuthActions` hook.
+ *
+ * TODO(stage-1.5-polish): rename file to `sign-in.tsx`, rebuild with
+ * `react-hook-form` + `zodResolver` + MUI adapter components per plan §4.1.5.
+ * Kept minimal for MVP smoke-test.
+ */
+export default function LoginScreen(): JSX.Element {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const { signIn } = useAuthActions();
 
-export default function LoginScreen() {
-  const [username, setUsername] = useState('emilys'); // дефолтный юзер dummyjson
-  const [password, setPassword] = useState('emilyspass');
-  const { login } = useAuth();
-
-  const handleLogin = async () => {
+  const handleSubmit = async (): Promise<void> => {
     try {
-      await login(username, password);
-      Burnt.toast({ title: 'Успешный вход!', preset: 'done' });
+      await signIn({ email, password });
+      Burnt.toast({ title: 'Signed in', preset: 'done' });
     } catch {
-      Burnt.alert({ title: 'Ошибка', message: 'Неверный логин или пароль', preset: 'error' });
+      Burnt.alert({ title: 'Error', message: 'Invalid credentials', preset: 'error' });
     }
   };
 
   return (
     <View style={styles.container}>
-      <TextInput value={username} onChangeText={setUsername} placeholder="Логин" />
-      <TextInput value={password} onChangeText={setPassword} secureTextEntry placeholder="Пароль" />
-      <Button title="Войти" onPress={handleLogin} />
+      <TextInput
+        value={email}
+        onChangeText={setEmail}
+        placeholder="Email"
+        autoCapitalize="none"
+        keyboardType="email-address"
+      />
+      <TextInput
+        value={password}
+        onChangeText={setPassword}
+        secureTextEntry
+        placeholder="Password"
+      />
+      <Button title="Sign in" onPress={handleSubmit} />
     </View>
   );
 }

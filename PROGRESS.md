@@ -2,7 +2,7 @@
 
 Live checklist. Update in the same commit as the code change. See `docs/plans/2026-04-22-react-native-port-plan.md` for the full plan.
 
-**Current stage:** Stage 1 — MVP, substage **1.4 i18n**.
+**Current stage:** Stage 1 — MVP, substage **1.5 Auth (JWT)** — Phase A done; Phase B (guards) + Phase C (screens) pending.
 
 Legend: `[ ]` todo · `[~]` in progress · `[x]` done · `[-]` skipped/YAGNI
 
@@ -93,15 +93,36 @@ Adapter components (src/components/mui/):
 - [x] `formatNumberLocale` util copied (DOM-free)
 
 ### 1.5 Auth (JWT)
-- [ ] src/auth/context/ ported
-- [ ] src/auth/hooks/ ported
-- [ ] src/auth/providers/jwt/ adapted (secure-store)
-- [ ] src/auth/utils.ts ported
-- [ ] app/(auth)/sign-in.tsx
-- [ ] app/(auth)/sign-up.tsx
-- [ ] app/(auth)/forgot-password.tsx
-- [ ] AuthGuard, GuestGuard
-- [ ] Deep-linking config in app.json
+
+**Divergence from plan §4.1.5** (recorded in CLAUDE.md §"Auth — divergence from web"):
+- State: jotai (not React Context). `useAuthContext()` keeps web's public shape.
+- Guards: expo-router route groups + `<Redirect>` (not `AuthGuard` / `GuestGuard` wrappers).
+- MVP scope reduction: sign-up + forgot-password + deep-linking deferred (user scope call).
+
+**Phase A — infrastructure (no UI) — done**
+- [x] `src/auth/types.ts` — `AuthUser`, `AuthState`, `AuthContextValue`, `SignInParams`, `SignUpParams`, `SessionPayload`
+- [x] `src/auth/store/auth-atoms.ts` — `userAtom` (MMKV-backed), `isAuthAtom`, `isHydratedAtom` (moved from `src/store/auth.ts`)
+- [x] `src/auth/utils/jwt.ts` — `jwtDecode`, `isValidToken` (uses global `atob` in RN 0.83; no DOM)
+- [x] `src/auth/session.ts` — `storeSession`, `storeTokens`, `clearSession` via `jotai.getDefaultStore()`
+- [x] `src/auth/actions/jwt.ts` — plain async `signInWithPassword`, `signUp`, `signOut`, `fetchCurrentUser` (replaces service-object `auth.service.ts`)
+- [x] `src/auth/hooks/use-auth-context.ts` — `{ user, loading, authenticated, unauthenticated }` over jotai atoms
+- [x] `src/auth/hooks/use-auth-actions.ts` — memoised `{ signIn, signUp, signOut }` wrappers
+- [x] `src/auth/index.ts` barrel
+- [x] `src/lib/axios.ts` — baseURL = `CONFIG.serverUrl`; added `endpoints.auth.refresh`; 401 interceptor calls `clearSession` on refresh failure
+- [x] `app.json` — `extra.apiBaseUrl` → `extra.serverUrl` (aligns with `global-config.ts`)
+- [x] `app/_layout.tsx` — bootstrap validates access token via `isValidToken`; calls `clearSession` if invalid/missing; flips `isHydratedAtom`
+- [x] Removed: `src/services/auth.service.ts`, `src/store/auth.ts`, `src/hooks/use-auth.ts`, `src/types/auth.ts` (and empty parent dirs)
+
+**Phase B — guards (pending)**
+- [x] `app/(app)/_layout.tsx` — uses `useAuthContext`; `<Redirect href="/login">` when unauthenticated
+- [ ] `app/(auth)/_layout.tsx` — reverse guard: `<Redirect href="/">` when authenticated
+- [ ] Splash placeholder while `loading` (currently returns `null`)
+
+**Phase C — screens (end of stage, MVP minimum = sign-in only)**
+- [~] `app/(auth)/login.tsx` — temporary placeholder wired to `useAuthActions`; raw TextInput UI. TODO(stage-1.5-polish): rename to `sign-in.tsx`, rebuild with `react-hook-form` + `zodResolver` + MUI adapter
+- [-] `app/(auth)/sign-up.tsx` — deferred (user scope call)
+- [-] `app/(auth)/forgot-password.tsx` — deferred (user scope call)
+- [-] Deep-linking config in app.json — deferred with forgot-password
 
 ### 1.6 Layouts & navigation
 - [ ] app/_layout.tsx (providers stack)

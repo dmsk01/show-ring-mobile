@@ -20,6 +20,7 @@ You are expected to operate at or above the level of a **senior React Native eng
 5. **Align with web versions** for shared business libs (hook-form, zod, swr, axios, i18next 25, react-i18next 15, dayjs, es-toolkit). See plan §2 for exact pins. Do NOT upgrade i18next to 26+ without a paired upgrade in the web project.
 6. **YAGNI.** Implement only what the current stage requires. No speculative abstractions, no premature optimization, no "while I'm here" refactors.
 7. **No dead code, no stubs without an explicit `// TODO(stage-N): description` tag.** Unused files are deleted, not kept "for later".
+8. **Web parity is a default, not a rule.** The web template is the reference — port identical behavior when it's idiomatic in RN. But we are allowed to pick a better-suited RN practice over a verbatim copy **if the benefit is concrete** (perf, DX, platform fit) and the public API exposed to sections stays close to web so porting stays mechanical. Always document the divergence: a short rationale in CLAUDE.md + updated plan reference. Examples already applied: jotai for auth state (smaller re-renders than React Context on RN, sync MMKV hydration), expo-router route groups `(app)` / `(auth)` with `<Redirect>` guards (replaces imperative `AuthGuard` / `GuestGuard`), static `resources` + `resourcesToBackend` for i18n (Metro can't resolve dynamic paths).
 
 ---
 
@@ -60,14 +61,17 @@ Every adapter component file must:
 - Never use `AsyncStorage` directly.
 
 ### Data fetching
-- HTTP via `src/lib/axios.ts` (interceptors: auth token, 401 refresh, error normalization).
-- Cache via SWR (`src/lib/swr.ts`).
-- Fetchers live in `src/actions/*`, copied from web, same function signatures.
+- HTTP via `src/lib/axios.ts` (interceptors: auth token, 401 refresh with queue, error normalization).
+- Cache via SWR (`src/lib/swr.ts`) — same version family as web; RN-safe (no DOM deps), `useAppStateRevalidation` replaces `window.focus`.
+- Fetchers are **plain async functions** (never service objects with methods) under `src/actions/*` and `src/auth/actions/*`. Same function signatures as web so section code ports mechanically.
 
-### Auth
-- Context in `src/auth/context/` (copied from web).
-- Providers under `src/auth/providers/<name>/`; current stage supports only `jwt`.
-- Token persistence via secure-storage only.
+### Auth — divergence from web
+- **State:** jotai (`userAtom` via `atomWithStorage` on MMKV, derived `isAuthAtom`, `isHydratedAtom`) instead of React Context + reducer. Rationale: atomic updates avoid re-rendering the whole auth subtree on unrelated state changes; sync MMKV adapter lets hydration complete without async provider bootstrap.
+- **Hook surface:** `useAuthContext()` returning `{ user, authenticated, unauthenticated, loading }` — same shape as web `useAuthContext` so downstream code imports identically.
+- **Actions:** plain async functions in `src/auth/actions/jwt.ts` — `signInWithPassword`, `signUp`, `signOut`, `forgotPassword`. Same signatures as web's `src/auth/context/jwt/action.ts`.
+- **Guards:** expo-router route groups — `app/(app)/_layout.tsx` + `<Redirect href="/sign-in">` when `!isAuth`; `app/(auth)/_layout.tsx` + `<Redirect href="/">` when already authenticated. No imperative `AuthGuard` / `GuestGuard` wrappers; the folder structure IS the guard.
+- **Token storage:** access + refresh in expo-secure-store; in-memory cache (`getCachedToken` / `setCachedToken`) for the axios request interceptor (sync). 401 response interceptor queues parallel requests and refreshes once.
+- **Utils:** `jwtDecode` + `isValidToken` in `src/auth/utils/jwt.ts`. `atob` replaced by `base-64` or manual base64 (no DOM).
 
 ### i18n
 - `src/locales/` copied from web verbatim.
