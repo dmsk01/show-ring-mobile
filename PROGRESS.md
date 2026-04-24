@@ -11,7 +11,12 @@ Legend: `[ ]` todo · `[~]` in progress · `[x]` done · `[-]` skipped/YAGNI
 ## Stage 1 — MVP
 
 ### 1.1 Skeleton & infra
-- [x] `package.json` scaffolded with all Stage 1 deps pinned to plan §2 versions
+
+**Divergence from plan §2 deps table:**
+- `es-toolkit` deferred to Stage 2 (not installed in Stage 1). Rationale: its root entry loads `AbortError.mjs`, which references the DOM-only `DOMException` and crashes under Hermes on first render. Stage 1 only needed `kebabCase` for post-title slugs in `paths.ts`; replaced with a local 6-line util at `src/utils/kebab-case.ts`. When `es-toolkit` returns in Stage 2 (for `debounce` etc.), use narrow submodule imports (`es-toolkit/array`, `es-toolkit/string`, …).
+- Reanimated babel plugin: `react-native-reanimated/plugin` → `react-native-worklets/plugin` in `babel.config.js`. In Reanimated v4+ the plugin was moved to the `react-native-worklets` package; the old path produces broken worklet transforms and bundle-level syntax errors.
+
+- [x] `package.json` scaffolded with all Stage 1 deps pinned to plan §2 versions (minus `es-toolkit`, see divergence above)
 - [x] `app.json` with newArchEnabled, scheme, plugins (expo-router, expo-font, expo-secure-store, expo-localization, expo-splash-screen)
 - [x] `babel.config.js` with reanimated plugin last
 - [x] `metro.config.js` with svg-transformer

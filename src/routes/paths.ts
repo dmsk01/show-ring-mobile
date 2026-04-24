@@ -1,7 +1,4 @@
-// Narrow import: importing from 'es-toolkit' root pulls in AbortError.mjs,
-// which references the DOM-only `DOMException` global and crashes under Hermes.
-// The string submodule is DOM-free.
-import { kebabCase } from 'es-toolkit/string';
+import { kebabCase } from 'src/utils/kebab-case';
 
 // ----------------------------------------------------------------------
 

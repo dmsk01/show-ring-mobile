@@ -88,7 +88,6 @@ The web template ships 30+ business sections, heavy third-party components (Data
 | `swr` | ^2.3.4 | **^2.3.4** | align |
 | `axios` | ^1.11.0 | **^1.11.0** | align |
 | `dayjs` | ^1.11.13 | **^1.11.13** | align |
-| `es-toolkit` | ^1.39.8 | **^1.39.8** | align |
 | `i18next` | ^25.3.2 | **^25.3.2** | align (NOT 26.x — breaking) |
 | `react-i18next` | ^15.6.1 | **^15.6.1** | align (NOT 17.x — breaking) |
 | `i18next-resources-to-backend` | ^1.2.1 | **^1.2.1** | align |
@@ -183,7 +182,7 @@ Duration: ~17-18 working days. Deliverable: runnable app with theme, JWT auth, d
 - [ ] `npx create-expo-app@latest show-ring-mobile --template expo-template-blank-typescript` — already in target path.
 - [ ] `npx expo install expo-router expo-font expo-linking expo-constants expo-localization expo-secure-store react-native-safe-area-context react-native-screens react-native-reanimated react-native-gesture-handler react-native-svg`
 - [ ] `npm i react-native-paper @shopify/flash-list react-native-mmkv burnt @expo/vector-icons`
-- [ ] `npm i react-hook-form@7.62.0 @hookform/resolvers@^5.2.1 zod@4.0.15 swr@^2.3.4 axios@^1.11.0 dayjs@^1.11.13 es-toolkit@^1.39.8 i18next@^25.3.2 react-i18next@^15.6.1 i18next-resources-to-backend@^1.2.1`
+- [ ] `npm i react-hook-form@7.62.0 @hookform/resolvers@^5.2.1 zod@4.0.15 swr@^2.3.4 axios@^1.11.0 dayjs@^1.11.13 i18next@^25.3.2 react-i18next@^15.6.1 i18next-resources-to-backend@^1.2.1` (es-toolkit deferred to stage 2 — see §5; Stage 1 uses a local kebabCase util)
 - [ ] `app.json`: `"newArchEnabled": true`, `"scheme": "showring"`, icon/splash placeholders.
 - [ ] `babel.config.js`: `expo-router/babel` + `react-native-reanimated/plugin` (last).
 - [ ] `metro.config.js`: integrate `react-native-svg-transformer`.
