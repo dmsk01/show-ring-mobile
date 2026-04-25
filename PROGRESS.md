@@ -209,7 +209,7 @@ See plan §6.
 - [x] `src/sections/maintenance/view.tsx` + `app/maintenance.tsx`
 - [x] `src/sections/coming-soon/view.tsx` + `app/coming-soon.tsx` (countdown inlined; simplified: shadowed TextField + social IconButtons dropped — YAGNI)
 - [x] `src/sections/blank/view.tsx` + `app/blank.tsx`
-- [x] `src/sections/permission/view.tsx` + `app/permission.tsx` (role toggle via two Buttons; `RoleBasedGuard` inlined; no `CustomBreadcrumbs`)
+- [x] `src/sections/permission/view.tsx` + `app/permission.tsx` (refactored: uses `usePermissions()` + `<Can>` from RBAC system; no local `useState<Role>`)
 
 Routing: `error/*`, `maintenance`, `coming-soon`, `blank`, `permission` sit at the top level (siblings of the `(app)` / `(auth)` route groups) — auth-free so the screens are reachable from anywhere (including as redirect targets for future 403/500 interceptors). They render through expo-router's default stack.
 
@@ -227,6 +227,37 @@ Illustrations: web uses complex SVG illustration components from `src/assets/ill
 - [-] `overview/*` — dropped with Stage 4 charts
 - [-] `contact` — dropped with Stage 4 map
 - [-] `home` — web landing page, not needed on mobile
+
+## RBAC — Role-Based Access Control  (in progress)
+See `G:/Work/show-ring/docs/plans/2026-04-24-rbac-design.md` for the design document.
+
+### Mobile core (Phase 3 of design doc, implemented first)
+- [x] `src/types/permissions.ts` — Role, Resource, Action, Permission, ParsedPermission
+- [x] `src/types/index.ts` barrel
+- [x] `src/config/permissions.ts` — ROLE_PERMISSIONS matrix, DEFAULT_ROLE, ROLES_LIST
+- [x] `src/config/index.ts` barrel
+- [x] `src/utils/permissions.ts` — parsePermission, permissionCovers, can, canAny, canAll, getPermissionsForRole, normalizeRole
+- [x] `src/auth/types.ts` — added `permissions` to AuthUser + AuthContextValue
+- [x] `src/auth/hooks/use-auth-context.ts` — computed permissions via getPermissionsForRole(normalizeRole(user.role))
+- [x] `src/hooks/use-permissions.ts` — usePermissions() hook
+- [x] `src/components/can/can.tsx` + index — `<Can>` component with render-prop overload
+- [x] `src/auth/guard/permission-guard.tsx` + index — `<PermissionGuard>` with expo-router `<Redirect>`
+- [x] `src/sections/permission/view.tsx` — refactored to use `usePermissions()` + `<Can>` instead of local `useState<Role>`
+
+### Web core (Phase 1 of design doc)
+- [ ] `src/types/permissions.ts` + `src/config/permissions.ts` + `src/utils/permissions.ts` (shared core)
+- [ ] `src/auth/types.ts` update + all 5 AuthProviders (jwt/amplify/auth0/firebase/supabase)
+- [ ] `src/hooks/use-permissions.ts` + `src/components/can/`
+- [ ] `src/auth/guard/permission-guard.tsx` + deprecate RoleBasedGuard
+- [ ] `src/app/403/page.tsx` + `paths.page403`
+
+### Web menu + guards (Phase 2 of design doc)
+- [ ] `layouts/types.ts` — `permission?:` on NavItem
+- [ ] `layouts/nav-filter.ts` + nav-config annotations
+- [ ] PermissionGuard on dashboard layouts
+- [ ] Remove deprecated RoleBasedGuard
+
+---
 
 ## Stage 4 — Sections with External Libs  (partially dropped)
 See plan §7. Scope reduction (memory `project_stage4_scope.md`):

@@ -10,6 +10,7 @@ export interface AuthUser {
   displayName?: string;
   photoURL?: string;
   role?: string;
+  permissions?: string[];
   // Backend may include additional fields; keep the type open-ended.
   [key: string]: unknown;
 }
@@ -26,6 +27,7 @@ export type AuthContextValue = {
   loading: boolean;
   authenticated: boolean;
   unauthenticated: boolean;
+  permissions: string[];
 };
 
 // ----------------------------------------------------------------------
