@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//g/Work/show-ring/src/sections/about/**)",
+      "Read(//g/Work/show-ring/src/sections/pricing/**)",
+      "Read(//g/Work/show-ring/src/sections/faqs/**)",
+      "Bash(wc:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npx eslint:*)",
+      "Bash(grep -v \"^$\")"
+    ]
+  }
+}

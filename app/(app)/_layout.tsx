@@ -60,6 +60,15 @@ export default function AppLayout(): JSX.Element {
           ),
         }}
       />
+      {/* Account section — hidden from tab bar, navigated to from Settings */}
+      <Tabs.Screen
+        name="account"
+        options={{
+          title: 'Account',
+          href: null, // hides from tab bar
+          headerShown: false,
+        }}
+      />
     </Tabs>
   );
 }

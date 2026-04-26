@@ -235,7 +235,43 @@ Illustrations: web uses complex SVG illustration components from `src/assets/ill
 - [ ] `faqs/` — hero / category / list / form (no map)
 
 ### 3.C Account settings (RHF-heavy)
-- [ ] `account/*` — general / change-password / notifications / socials / billing-* (10 files). Large port; split into its own commit.
+
+**Divergence from web (recorded 2026-04-26):**
+- `Field.UploadAvatar` deferred — needs `expo-image-picker`. Replaced with static `Avatar`. TODO(stage-3.C upload).
+- `AccountBillingPayment` (PaymentCardItem/CreateForm) and `AccountBillingAddress` (AddressItem/CreateForm/CustomPopover) omitted — depend on `sections/payment` and `sections/address` not yet ported. TODO(stage-5).
+- `Grid` → `Stack` (single-column layout idiomatic on mobile).
+- `useBoolean` implemented locally at `src/hooks/use-boolean.ts` (replaces `minimal-shared/hooks`).
+- Form submission via `onClick={onSubmit}` on Button (no `type="submit"` in RN).
+- Password visibility toggle via `Pressable` + `endAdornment` (no `IconButton children` in adapter).
+- Account sub-navigation: horizontal scrollable tab bar via `AccountLayout` component + expo-router nested Stack.
+- `PLAN_ICONS`: `solar:gift/star/crown` not in registered icon-sets → replaced with `solar:shield-check-bold / cup-star-bold / verified-check-bold`.
+
+**New infra added:**
+- `src/hooks/use-boolean.ts` — `useBoolean` hook
+- `src/utils/format-time.ts` — `fDate`, `fDateTime`
+- `src/utils/format-number.ts` — `fCurrency`, `fData`, `fNumber`, `fPercent`
+- `src/types/common.ts` — `IPaymentCard`, `IAddressItem`, `IDateValue`, `ISocialLink`
+- `src/types/user.ts` — `IUserAccountBillingHistory`, `IUserItem`, `IUserAbout`
+- `src/_mock/_user.ts` + `src/_mock/index.ts` — user mock data
+- `src/auth/hooks/use-mocked-user.ts` — `useMockedUser`
+
+- [x] `src/sections/account/account-general.tsx` (Field.UploadAvatar deferred — see above)
+- [x] `src/sections/account/account-change-password.tsx`
+- [x] `src/sections/account/account-notifications.tsx`
+- [x] `src/sections/account/account-socials.tsx`
+- [x] `src/sections/account/account-billing.tsx` (simplified — plan + history only)
+- [x] `src/sections/account/account-billing-plan.tsx`
+- [x] `src/sections/account/account-billing-history.tsx`
+- [x] `src/sections/account/account-layout.tsx` — scrollable horizontal tab bar
+- [x] `src/sections/account/view/` — all 5 view files + barrel
+- [x] `app/(app)/account/_layout.tsx` — nested Stack
+- [x] `app/(app)/account/index.tsx` (general)
+- [x] `app/(app)/account/billing.tsx`
+- [x] `app/(app)/account/notifications.tsx`
+- [x] `app/(app)/account/socials.tsx`
+- [x] `app/(app)/account/change-password.tsx`
+- [x] `app/(app)/_layout.tsx` — account added as hidden tab (`href: null`)
+- [ ] `src/components/hook-form/rhf-upload.tsx` + `src/components/upload/upload-avatar.tsx` — deferred (needs expo-image-picker)
 
 ### 3.D Dropped / deferred
 - [-] `overview/*` — dropped with Stage 4 charts
