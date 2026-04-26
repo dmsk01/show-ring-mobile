@@ -1,11 +1,19 @@
-/**
- * Hook-form adapter layer.
- *
- * Web's barrel exposes a namespaced `Field.*` object; we re-export individual
- * components for now and add the namespace alias as more wrappers land
- * (stages 2+). Keep import shape compatible: `import { RHFTextField } from
- * 'src/components/hook-form'` works on both projects.
- */
+export * from './fields';
 
-export { Form, type FormProps } from './form-provider';
-export { RHFTextField, type RHFTextFieldProps } from './rhf-text-field';
+export * from './rhf-switch';
+
+export * from './rhf-checkbox';
+
+export * from './schema-utils';
+
+export * from './form-provider';
+
+export * from './rhf-text-field';
+
+export * from './rhf-radio-group';
+
+export * from './rhf-phone-input';
+
+export * from './rhf-autocomplete';
+
+export * from './rhf-country-select';

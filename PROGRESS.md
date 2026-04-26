@@ -215,6 +215,20 @@ Routing: `error/*`, `maintenance`, `coming-soon`, `blank`, `permission` sit at t
 
 Illustrations: web uses complex SVG illustration components from `src/assets/illustrations/*`. Mobile substitutes with a single Iconify glyph sized ~160 px — same visual role, zero new assets.
 
+### 3.A+ RHF wrappers expansion (infra for 3.C account screens)
+- [x] `src/components/hook-form/help-text.tsx` — RN helper text (error/hint below controls)
+- [x] `src/components/hook-form/schema-utils.ts` — Zod schema helpers (email, date, phone, boolean, sliderRange, nullableInput); dropped web's `editor`/`file`/`files`
+- [x] `src/components/hook-form/rhf-switch.tsx` — Controller + Switch adapter
+- [x] `src/components/hook-form/rhf-checkbox.tsx` — Controller + Checkbox adapter
+- [x] `src/components/hook-form/rhf-autocomplete.tsx` — Controller + Autocomplete adapter
+- [x] `src/components/hook-form/rhf-radio-group.tsx` — Controller + RadioGroup/Radio adapters
+- [x] `src/components/hook-form/rhf-phone-input.tsx` — simplified: TextField with `keyboardType: phone-pad` (no country code selector — diverges from web's `react-phone-number-input`)
+- [x] `src/assets/data/countries.ts` + barrel — country list (copy from web)
+- [x] `src/components/hook-form/rhf-country-select.tsx` — Autocomplete over countries data (no flag icons — diverges from web's `FlagIcon` component)
+- [x] `src/components/hook-form/fields.tsx` — `Field.*` namespace mirroring web's API
+- [x] `src/components/hook-form/index.ts` — updated barrel
+- [ ] `src/components/hook-form/rhf-upload.tsx` + `src/components/upload/upload-avatar.tsx` — deferred: needs `npx expo install expo-image-picker`
+
 ### 3.B Content landings (vertical-scroll marketing pages)
 - [ ] `about/` — hero / what / vision / team / testimonials sections
 - [ ] `pricing/` — card + view
@@ -244,12 +258,13 @@ See `G:/Work/show-ring/docs/plans/2026-04-24-rbac-design.md` for the design docu
 - [x] `src/auth/guard/permission-guard.tsx` + index — `<PermissionGuard>` with expo-router `<Redirect>`
 - [x] `src/sections/permission/view.tsx` — refactored to use `usePermissions()` + `<Can>` instead of local `useState<Role>`
 
-### Web core (Phase 1 of design doc)
-- [ ] `src/types/permissions.ts` + `src/config/permissions.ts` + `src/utils/permissions.ts` (shared core)
-- [ ] `src/auth/types.ts` update + all 5 AuthProviders (jwt/amplify/auth0/firebase/supabase)
-- [ ] `src/hooks/use-permissions.ts` + `src/components/can/`
-- [ ] `src/auth/guard/permission-guard.tsx` + deprecate RoleBasedGuard
-- [ ] `src/app/403/page.tsx` + `paths.page403`
+### Web core (Phase 1 of design doc) — code written, not committed
+- [x] `src/types/permissions.ts` + `src/config/permissions.ts` + `src/utils/permissions.ts` (shared core)
+- [x] `src/auth/types.ts` update + all 5 AuthProviders (jwt/amplify/auth0/firebase/supabase)
+- [x] `src/hooks/use-permissions.ts` + `src/components/can/`
+- [x] `src/auth/guard/permission-guard.tsx` + deprecate RoleBasedGuard
+- [x] `src/app/403/page.tsx` + `paths.page403` (already existed)
+- [ ] `check:all` + commit
 
 ### Web menu + guards (Phase 2 of design doc)
 - [ ] `layouts/types.ts` — `permission?:` on NavItem
